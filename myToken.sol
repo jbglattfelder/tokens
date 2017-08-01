@@ -15,7 +15,7 @@ contract MyToken is ERC20PartialInterface {
     string public constant name = "J-COIN";
     string public constant symbol = "JCN";
     
-    uint private sppl;
+    uint private sppl = 123456789;
     
     address private owner;
     mapping (address => uint) accounts;
@@ -23,11 +23,8 @@ contract MyToken is ERC20PartialInterface {
     // Constructor
     function MyToken() {
         owner = msg.sender;
-        require(owner == msg.sender);
-        sppl = 123456789;
-        Message("Supply generated");
         accounts[owner] = sppl;
-        Message("Owner credited");
+        Message("Initial balance");
     }
     
     function totalSupply() constant returns (uint) {
@@ -40,10 +37,15 @@ contract MyToken is ERC20PartialInterface {
     
     function transfer(address _to, uint _value) returns (bool) {
         require(owner == msg.sender);
-        if (accounts[owner] >= _value && _value > 0 ){
-            accounts[owner] -= _value;
+        if (accounts[msg.sender] >= _value && _value > 0 ){
+            accounts[msg.sender] -= _value;
             accounts[_to] += _value;
+            Transfer(msg.sender, _to, _value);
             Message("Funds transferred");
+            return true;
+        }
+        else {
+            return false;
         }
     }
     
