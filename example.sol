@@ -12,7 +12,7 @@ contract Example {
     // Constructor
     function Example() {
         owner = msg.sender;
-        require(owner == msg.sender);
+        // require(owner == msg.sender); // Check
         Message("OK");
     }
 
